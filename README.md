@@ -21,4 +21,13 @@ this repo contains my solutions for advent of code
 
 ## notes
 
-advent of code is fun!
+to use the helper scripts in this repo, create a file named `.session`
+containing your adventofcode.com session id
+
+`get-input` creates a `./{year}/{day}` directory, copies `template.py` as
+`solution.py`, and fetches your unique input from adventofcode.com and
+saves it as `input.txt`
+
+`update-score` downloads your personal statistics from adventofcode.com, and
+converts their ascii table into markdown tables and replaces the contents of
+the `scores` section in this readme file
