@@ -1,0 +1,56 @@
+#!/bin/python
+import os
+import requests
+from bs4 import BeautifulSoup
+import re
+
+base_dir = os.path.realpath(os.path.dirname(__file__))
+with open(base_dir + "/.session", "r") as file:
+    session = file.read().rstrip()
+
+# get data from adventofcode.com
+response = requests.get(
+    "https://adventofcode.com/2022/leaderboard/self", cookies={"session": session}
+)
+
+soup = BeautifulSoup(response.text, "lxml")
+scoreboard = soup.find("article").find("pre").text
+lines = scoreboard.strip().splitlines()
+
+# turn data into a markdown table
+data_rows = lines[2:]
+data_rows.reverse()
+data_columns = [row.split() for row in data_rows]
+
+tables = []
+for i in range(2):
+    table = ""
+    table += "|" + "|".join(["day", "time", "rank", "score"]) + "|\n"
+    table += "|" + "|".join(["---"] * 4) + "|\n"
+
+    for row in data_columns:
+        if i == 0:
+            table += "|" + "|".join(row[:4]) + "|\n"
+        else:
+            table += "|" + "|".join([row[0]] + row[4:]) + "|\n"
+
+    tables.append(table)
+
+# insert markdown table into README.md
+with open(base_dir + "/README.md") as file:
+    text = file.read()
+
+rx = r"^## scores\n(.*?)^## notes"
+match = re.search(rx, text, flags=re.DOTALL | re.MULTILINE)
+
+if match:
+    new = "## scores\n"
+    new += f"### part 1\n\n{tables[0]}\n"
+    new += f"### part 2\n\n{tables[1]}\n"
+    new += "## notes"
+
+    replace = text.replace(match.group(0), new)
+    with open(base_dir + "/README.md", "w") as file:
+        file.write(replace)
+
+print("updated scoreboard in README.md")
