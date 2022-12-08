@@ -14,6 +14,7 @@ this repo contains my solutions for advent of code
 |5|00:17:50|2168|0|
 |6|00:08:15|4815|0|
 |7|00:19:50|735|0|
+|8|13:04:24|52832|0|
 
 ### part 2
 
@@ -26,6 +27,7 @@ this repo contains my solutions for advent of code
 |5|12:38:15|61014|0|
 |6|00:08:47|3739|0|
 |7|00:26:28|871|0|
+|8|13:31:01|46137|0|
 
 ## notes
 
